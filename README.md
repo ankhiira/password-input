@@ -1,2 +1,2 @@
-# sign-in-input
-Sample sign in input component
+# PasswordInput
+Sample PasswordInput Compose Component
