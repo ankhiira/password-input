@@ -2,6 +2,7 @@
 <resources>
     <!-- Labels -->
     <string name="input_label_password">Heslo</string>
+    <string name="input_label_optional">Nepovinné</string>
 
     <!-- Validations -->
     <string name="invalid_password_min_8_digits">Minimálne 8 znakov</string>

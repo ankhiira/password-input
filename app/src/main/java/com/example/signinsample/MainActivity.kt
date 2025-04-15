@@ -42,6 +42,7 @@ class MainActivity : ComponentActivity() {
                     PasswordInput(
                         value = password,
                         label = stringResource(R.string.input_label_password),
+                        placeholder = stringResource(R.string.input_label_password),
                         isOptional = true
                     ) {
                         password = it

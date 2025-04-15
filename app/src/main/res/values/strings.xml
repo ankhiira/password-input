@@ -3,6 +3,7 @@
 
     <!-- Labels -->
     <string name="input_label_password">Password</string>
+    <string name="input_label_optional">Optional</string>
 
     <!-- Validations -->
     <string name="invalid_password_min_8_digits">At least 8 characters</string>

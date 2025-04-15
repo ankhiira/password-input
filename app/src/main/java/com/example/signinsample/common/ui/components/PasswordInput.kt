@@ -13,18 +13,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import com.example.signinsample.common.validation.PasswordValidator.validatePassword
+import com.example.signinsample.ui.theme.AppTheme
 
 @Composable
 fun PasswordInput(
     value: String,
+    modifier: Modifier = Modifier,
     label: String,
+    placeholder: String? = null,
     isOptional: Boolean = false,
     validator: (Context, String) -> Pair<Boolean, String?> = ::validatePassword,
-    modifier: Modifier = Modifier,
+    cornerRadius: Dp = AppTheme.radius.radiusInput,
+    inputTextStyle: TextStyle = AppTheme.typography.bodyM,
+    colors: InputViewColors = defaultInputViewColors(),
     onValueChange: (String) -> Unit
 ) {
     val context = LocalContext.current
@@ -38,16 +44,21 @@ fun PasswordInput(
     }
 
     InputView(
+        modifier = modifier,
         value = value,
         onValueChange = {
             onValueChange(it)
         },
         label = label,
+        placeholder = placeholder,
         isOptional = isOptional,
         isError = isError,
         errorMessage = errorMessage,
+        inputTextStyle = inputTextStyle,
+        cornerRadius = cornerRadius,
+        colors = colors,
         visualTransformation = visualTransformation,
-        trailingIcon = {
+        actions = {
             IconButton(onClick = { passwordVisible = !passwordVisible }) {
                 Icon(
                     imageVector = if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
@@ -56,17 +67,4 @@ fun PasswordInput(
             }
         }
     )
-}
-
-@Preview(
-    showBackground = true
-)
-@Composable
-private fun PasswordInputPreview() {
-    PasswordInput(
-        value = "testhTjk1/",
-        label = "Password"
-    ) {
-
-    }
 }

@@ -4,7 +4,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,48 +20,45 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.LastBaseline
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.example.signinsample.R
 import com.example.signinsample.ui.theme.AppTheme
 
 @Composable
 fun InputView(
     value: String,
     onValueChange: (String) -> Unit,
-    label: String,
-    isOptional: Boolean = false,
     modifier: Modifier = Modifier,
+    label: String,
     placeholder: String? = null,
-    textStyle: TextStyle = AppTheme.typography.bodyM,
-    borderColor: Color = AppTheme.colors.surfaceXHigh,
-    focusedBorderColor: Color = AppTheme.colors.defaultFocus,
-    labelColor: Color = AppTheme.colors.onNeutralXxHigh,
-    focusedLabelColor: Color = AppTheme.colors.defaultFocus,
+    isOptional: Boolean = false,
     isError: Boolean = false,
     errorMessage: String? = null,
     cornerRadius: Dp = AppTheme.radius.radiusInput,
-    actions: (@Composable RowScope.() -> Unit)? = null,
+    inputTextStyle: TextStyle = AppTheme.typography.bodyM,
+    colors: InputViewColors = defaultInputViewColors(),
     visualTransformation: VisualTransformation,
-    trailingIcon: (@Composable () -> Unit)? = null
+    actions: (@Composable () -> Unit)? = null
 ) {
     val focusRequester = remember { FocusRequester() }
     val focusState = remember { mutableStateOf(false) }
 
     val effectiveBorderColor = when {
-        isError -> AppTheme.colors.surfaceDanger
-        focusState.value -> focusedBorderColor
-        else -> borderColor
+        isError -> colors.errorBorderColor
+        focusState.value -> colors.focusedBorderColor
+        else -> colors.borderColor
     }
 
     val effectiveLabelColor = when {
-        isError -> AppTheme.colors.onNeutralDanger
-        focusState.value -> focusedLabelColor
-        else -> labelColor
+        isError -> colors.errorTextColor
+        focusState.value -> colors.focusedLabelColor
+        else -> colors.labelColor
     }
 
     Column {
@@ -78,7 +74,7 @@ fun InputView(
             if (isOptional) {
                 Spacer(modifier = Modifier.width(AppTheme.spacing.spacingXs))
                 Text(
-                    text = "Optional",
+                    text = stringResource(R.string.input_label_optional),
                     modifier = Modifier.alignBy(LastBaseline),
                     color = AppTheme.colors.onNeutralLow,
                     style = AppTheme.typography.labelS
@@ -99,8 +95,8 @@ fun InputView(
             BasicTextField(
                 value = value,
                 onValueChange = onValueChange,
-                textStyle = textStyle.merge(TextStyle(color = Color.Black)),
-                cursorBrush = SolidColor(Color.Black),
+                textStyle = inputTextStyle.merge(TextStyle(color = colors.inputColor)),
+                cursorBrush = SolidColor(colors.cursorColor),
                 modifier = Modifier
                     .padding(vertical = AppTheme.spacing.spacingS)
                     .padding(start = AppTheme.spacing.spacingM, end = AppTheme.spacing.spacingXs)
@@ -117,14 +113,13 @@ fun InputView(
                 },
                 visualTransformation = visualTransformation
             )
-
-            if (trailingIcon != null) {
+            if (actions != null) {
                 Box(
                     modifier = Modifier
                         .align(Alignment.CenterEnd)
                         .padding(start = AppTheme.spacing.spacingXs)
                 ) {
-                    trailingIcon()
+                    actions()
                 }
             }
         }
@@ -133,7 +128,10 @@ fun InputView(
                 text = errorMessage,
                 color = AppTheme.colors.onNeutralDanger,
                 style = AppTheme.typography.bodyM,
-                modifier = Modifier.padding(start = 4.dp, top = 4.dp)
+                modifier = Modifier.padding(
+                    start = AppTheme.spacing.spacingXs,
+                    top = AppTheme.spacing.spacingXs
+                )
             )
         }
     }
