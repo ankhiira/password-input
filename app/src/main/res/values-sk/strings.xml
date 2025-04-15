@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Labels -->
+    <string name="input_label_password">Heslo</string>
+
+    <!-- Validations -->
+    <string name="invalid_password_min_8_digits">Minimálne 8 znakov</string>
+    <string name="invalid_password_upper_case">Aspoň jedno veľké písmeno</string>
+    <string name="invalid_password_number">Aspoň jedno číslo</string>
+    <string name="invalid_password_special_character">Aspoň jeden špeciálny znak (? = # / %)</string>
+</resources>

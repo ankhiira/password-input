@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">Sign In Sample</string>
+    <string name="app_name" translatable="false">Password Component</string>
+
+    <!-- Labels -->
+    <string name="input_label_password">Password</string>
+
+    <!-- Validations -->
+    <string name="invalid_password_min_8_digits">At least 8 characters</string>
+    <string name="invalid_password_upper_case">At least one uppercase letter</string>
+    <string name="invalid_password_number">At least one number</string>
+    <string name="invalid_password_special_character">At least one special character (? = # / %)</string>
 </resources>
